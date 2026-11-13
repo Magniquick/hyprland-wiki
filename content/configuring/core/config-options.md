@@ -720,7 +720,7 @@ Category: `render`
 | Name | Description | Type | Default | Limits |
 | --- | --- | --- | --- | --- |
 | async_commit | Send DRM commits asynchronously when possible, reducing hw cursor latency | bool | `false` | |
-| cm_auto_hdr | Auto-switch to HDR in fullscreen when needed. `0` - disabled, `1` - switch to `hdr`, `2` - switch to `hdredid` | int | `1` | [0 - 2] |
+| cm_auto_hdr | Auto-switch to HDR in fullscreen when the app submits HDR content. `0` - disabled, `1` - switch to `hdr`, `2` - switch to `hdredid`, `3` - same as `1` and also make HDR the fullscreen app's preferred description, `4` - same as `2` with that preference | int | `1` | [0 - 4] |
 | cm_enabled | Whether the color management pipeline should be enabled or not. Requires restart | bool | `true` | |
 | cm_sdr_eotf | Default transfer function for displaying SDR apps. `default` - Use default value (sRGB), `gamma22` - treat unspecified as Gamma 2.2, `gamma22force` - treat unspecified and sRGB as Gamma 2.2, `srgb` - treat unspecified as sRGB. Options: `"default"`/`"gamma22"`/`"gamma22force"`/`"srgb"` | string | `"default"` | |
 | ctm_animation | Whether to enable a fade animation for CTM changes (hyprsunset). 2 means "auto" which disables them on NVIDIA | int | `2` | [0 - 2] |
@@ -740,6 +740,8 @@ Category: `render`
 | xp_mode | Disables back buffer and bottom layer rendering | bool | `false` | |
 
 `cm_auto_hdr` requires the `--target-colorspace-hint-mode=source` mpv option to work with mpv versions greater than v0.40.0.
+
+Apps that follow the preferred description instead of picking HDR themselves, such as Chromium or mpv in its default target mode, only trigger auto HDR with `3` or `4`. With those values they render HDR even for SDR content, so the output switches to HDR whenever they are fullscreen.
 
 ### Cursor
 
